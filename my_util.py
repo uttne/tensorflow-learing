@@ -1,6 +1,8 @@
 import glob
 import tensorflow as tf
 import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
 
 def get_all_image_paths(dir_path):
     return glob.glob(dir_path.rstrip("/") + "/*")
@@ -31,7 +33,24 @@ def show_image(image):
     plt.grid(False)
     plt.show()
 
+def scatter(x, labels, label_num, subtitle=None):
+    # We choose a color palette with seaborn.
+    palette = np.array(sns.color_palette("hls", label_num))
 
+    # We create a scatter plot.
+    f = plt.figure(figsize=(8, 8))
+    ax = plt.subplot(aspect='equal')
+    sc = ax.scatter(x[:,0], x[:,1], lw=0, s=40,
+                    c=palette[labels.astype(np.int)])
+    plt.xlim(-25, 25)
+    plt.ylim(-25, 25)
+    ax.axis('off')
+    ax.axis('tight')
+        
+    if subtitle != None:
+        plt.suptitle(subtitle)
+        
+    plt.savefig(subtitle)
 
 
 
